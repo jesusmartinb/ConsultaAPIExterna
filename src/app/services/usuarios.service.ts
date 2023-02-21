@@ -17,6 +17,10 @@ export class UsuariosService {
   getAllUsers(): Observable<any> {
     return this.httpClient.get<any>(this.url);
   }
+
+  getUserById(id: string): Observable<any> {
+    return this.httpClient.get<any>(this.url + '/' + id);
+  }
 }
 
 

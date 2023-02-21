@@ -9,6 +9,7 @@ import { ActualizaUsuarioComponent } from './components/actualiza-usuario/actual
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { NuevoUsuarioComponent } from './components/nuevo-usuario/nuevo-usuario.component';
 import { FormularioComponent } from './components/formulario/formulario.component';
+import { DetalleUsuarioComponent } from './components/detalle-usuario/detalle-usuario.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FormularioComponent } from './components/formulario/formulario.componen
     ActualizaUsuarioComponent,
     UsuarioComponent,
     NuevoUsuarioComponent,
-    FormularioComponent
+    FormularioComponent,
+    DetalleUsuarioComponent
   ],
   imports: [
     BrowserModule,

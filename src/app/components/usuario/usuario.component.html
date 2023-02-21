@@ -1,11 +1,11 @@
-<div class="card">
+<div class="card shadow">
   <img [src]="miUsuario.image" class="card-img-top" alt="">
   <div class="card-body">
     <h5 class="card-title">{{miUsuario.first_name}} {{miUsuario.last_name}}</h5>
     <div class="d-flex g-1">
-      <a href="#" class="btn me-1"><i class="fa-solid fa-magnifying-glass"></i> Detalle</a>
-      <a href="#" class="btn me-1"><i class="fa-solid fa-rotate"></i> Actualizar</a>
-      <a href="#" class="btn me-1"><i class="fa-solid fa-trash-can"></i> Borrar</a>
+      <button [routerLink]="['/user', miUsuario._id]" class="btn btn-outline-dark me-1"><i class="fa-solid fa-magnifying-glass"></i> Detalle</button>
+      <button href="#" class="btn btn-outline-dark me-1"><i class="fa-solid fa-rotate"></i> Actualizar</button>
+      <button href="#" class="btn btn-outline-dark me-1"><i class="fa-solid fa-trash-can"></i> Borrar</button>
     </div>
   </div>
 </div>
