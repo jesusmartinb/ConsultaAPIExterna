@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-nuevo-usuario',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class NuevoUsuarioComponent {
 
+  formModel: FormGroup;
+
+  constructor() {
+    this.formModel = new FormGroup({},[]);
+
+  }
+
+  getDataForm() {
+    console.log(this.formModel.value);
+  }
 }
