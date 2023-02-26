@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UsuariosService } from 'src/app/services/usuarios.service';
+import { Usuario } from '../../interfaces/usuario.interface';
 
 @Component({
   selector: 'app-formulario',
   templateUrl: './formulario.component.html',
   styleUrls: ['./formulario.component.css']
 })
-export class FormularioComponent {
+export class FormularioComponent implements OnInit {
+
+  @Input() newUsuario: boolean | any;
 
   formModel: FormGroup;
 
-  constructor() {
+  constructor(private usuariosService: UsuariosService) {
     this.formModel = new FormGroup({
       first_name: new FormControl("",[
         Validators.required,
@@ -30,7 +34,6 @@ export class FormularioComponent {
       image: new FormControl("",[
         Validators.required,
         Validators.pattern(/((ht|f)tp(s?))(:((\/\/)(?!\/)))(((w){3}\.)?)([a-zA-Z0-9\-_]+(\.(com|edu|gov|int|mil|net|org|biz|info|name|pro|museum|es|dev|co\.uk)))(\/(?!\/))(([a-zA-Z0-9\-_\/]*)?)([a-zA-Z0-9])+\.((jpg|jpeg|gif|png)(?!(\w|\W)))/)
-        //Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')
       ]),
       password: new FormControl("",[
         Validators.required,
@@ -45,8 +48,23 @@ export class FormularioComponent {
 
   }
 
+  ngOnInit(): void {
+
+  }
+
   getDataForm() {
-    console.log(this.formModel.value);
+
+    if(this.newUsuario){
+
+      let nuevoUsuario: Usuario = this.formModel.value;
+
+      console.log(nuevoUsuario);
+
+      this.usuariosService.createNewUser(nuevoUsuario).subscribe(data => {
+        console.log(data);
+      });
+    }
+
   }
 
   checkControl(pControlName: string, pError: string): boolean {

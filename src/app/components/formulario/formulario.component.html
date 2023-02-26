@@ -39,5 +39,15 @@
     <input class="form-control" id="repetirpassword" formControlName="repetirpassword" type="password">
     <p class="error" *ngIf="checkControl('repetirpassword', 'required')">El campo es requerido</p>
   </div>
-  <input type="submit" value="Guardar" class="btn btn-danger" [disabled]="!formModel.valid">
+  <div *ngIf="newUsuario; then guardarNuevoUsuario; else actualizarUsuario"></div>
+  <ng-template #guardarNuevoUsuario>
+    <div>
+      <input type="submit" value="Guardar" class="btn btn-danger" [disabled]="!formModel.valid">
+    </div>
+  </ng-template>
+  <ng-template #actualizarUsuario>
+    <div>
+      <input type="submit" value="Actualizar" class="btn btn-danger" [disabled]="!formModel.valid">
+    </div>
+  </ng-template>
 </form>

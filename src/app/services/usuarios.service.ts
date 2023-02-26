@@ -21,6 +21,10 @@ export class UsuariosService {
   getUserById(id: string): Observable<any> {
     return this.httpClient.get<any>(this.url + '/' + id);
   }
+
+  createNewUser(newUser: Usuario): Observable<any> {
+    return this.httpClient.post<any>(this.url, newUser);
+  }
 }
 
 
