@@ -40,4 +40,11 @@ export class FormularioComponent {
   getDataForm() {
     console.log(this.formModel.value);
   }
+
+  checkControl(pControlName: string, pError: string): boolean {
+    if(this.formModel.get(pControlName)?.hasError(pError) && this.formModel.get(pControlName)?.touched) {
+      return true;
+    }
+    return false;
+  }
 }
