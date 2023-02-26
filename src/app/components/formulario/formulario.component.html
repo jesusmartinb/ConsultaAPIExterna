@@ -1,1 +1,31 @@
-<p>formulario works!</p>
+<form novalidate [formGroup]="formModel" (ngSubmit)="getDataForm()">
+  <div class="my-2">
+    <label class="form-label" for="first_name">Nombre (*)</label>
+    <input class="form-control" type="text" id="first_name" formControlName="first_name" placeholder="Introduce el nombre del usuario">
+  </div>
+  <div class="my-2">
+    <label class="form-label" for="last_name">Apellidos (*)</label>
+    <input class="form-control" type="text" id="last_name" formControlName="last_name" placeholder="Introduce los apellidos del usuario">
+  </div>
+  <div class="my-2">
+    <label class="form-label" for="username">Nombre Usuario o Apodo (*)</label>
+    <input class="form-control" type="text" id="username" formControlName="username" placeholder="Introduce el nombre usuario o apodo">
+  </div>
+  <div class="my-2">
+    <label class="form-label" for="email">Email (*)</label>
+    <input class="form-control" type="text" id="email" formControlName="email" placeholder="Introduce el email del usuario">
+  </div>
+  <div class="my-2">
+    <label class="form-label" for="image">Imagen (*)</label>
+    <input class="form-control" type="text" id="image" formControlName="image" placeholder="Introduce url de la foto usuario">
+  </div>
+  <div class="my-2">
+    <label class="form-label" for="password">Password (*)</label>
+    <input class="form-control" id="password" formControlName="password" type="password">
+  </div>
+  <div class="my-2">
+    <label class="form-label" for="repetirpassword">Repetir password (*)</label>
+    <input class="form-control" id="repetirpassword" formControlName="repetirpassword" type="password">
+  </div>
+  <input type="submit" value="Guardar" class="btn btn-danger">
+</form>
