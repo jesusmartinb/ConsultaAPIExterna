@@ -11,6 +11,7 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { NuevoUsuarioComponent } from './components/nuevo-usuario/nuevo-usuario.component';
 import { FormularioComponent } from './components/formulario/formulario.component';
 import { DetalleUsuarioComponent } from './components/detalle-usuario/detalle-usuario.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DetalleUsuarioComponent } from './components/detalle-usuario/detalle-us
     UsuarioComponent,
     NuevoUsuarioComponent,
     FormularioComponent,
-    DetalleUsuarioComponent
+    DetalleUsuarioComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
