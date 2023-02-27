@@ -11,13 +11,32 @@ export class ListaUsuariosComponent implements OnInit {
 
   arrUsuarios: Usuario[] = [];
 
+  page: number = 1;
+  total_pages: number = 2;
+  limit: number = 10;
+  offset: number = 0;
+
   constructor(private usuariosService: UsuariosService) { }
 
   ngOnInit(): void {
 
-    this.usuariosService.getAllUsers().subscribe(data => {
-      // console.log(data.results);
+    this.usuariosService.getUsersByPage(this.page, this.total_pages, this.limit, this.offset).subscribe(data => {
+      this.arrUsuarios = data.results;
+    });
 
+  }
+
+  nextPage() {
+    this.page += 1;
+    this.usuariosService.getUsersByPage(this.page, this.total_pages, this.limit, this.offset).subscribe(data => {
+      this.arrUsuarios = data.results;
+    });
+
+  }
+
+  previousPage() {
+    this.page -= 1;
+    this.usuariosService.getUsersByPage(this.page, this.total_pages, this.limit, this.offset).subscribe(data => {
       this.arrUsuarios = data.results;
     });
   }

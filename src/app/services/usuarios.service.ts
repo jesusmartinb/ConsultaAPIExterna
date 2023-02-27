@@ -14,8 +14,8 @@ export class UsuariosService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAllUsers(): Observable<any> {
-    return this.httpClient.get<any>(this.url);
+  getUsersByPage(page: number, total_pages: number, limit: number, offset: number) {
+    return this.httpClient.get<any>(this.url, { params: { page, total_pages, limit, offset } });
   }
 
   getUserById(id: string): Observable<any> {
