@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewportScroller } from '@angular/common'
+// import { Router } from '@angular/router'; Para entorno producción
 import { Usuario } from 'src/app/interfaces/usuario.interface';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
@@ -16,7 +18,11 @@ export class ListaUsuariosComponent implements OnInit {
   limit: number = 10;
   offset: number = 0;
 
-  constructor(private usuariosService: UsuariosService) { }
+  constructor(
+    private usuariosService: UsuariosService,
+    // private router: Router, Para entorno producción
+    private scroller: ViewportScroller
+    ) { }
 
   ngOnInit(): void {
 
@@ -31,7 +37,6 @@ export class ListaUsuariosComponent implements OnInit {
     this.usuariosService.getUsersByPage(this.page, this.total_pages, this.limit, this.offset).subscribe(data => {
       this.arrUsuarios = data.results;
     });
-
   }
 
   previousPage() {
@@ -39,6 +44,13 @@ export class ListaUsuariosComponent implements OnInit {
     this.usuariosService.getUsersByPage(this.page, this.total_pages, this.limit, this.offset).subscribe(data => {
       this.arrUsuarios = data.results;
     });
+  }
+
+  goStart() {
+    // setTimeout(() => {
+    //   this.router.navigate([], { fragment: "inicio"}); Valido para entorno de producción
+    // }, 300);
+    this.scroller.scrollToAnchor('inicio');
   }
 
 }

@@ -7,6 +7,6 @@
         <app-usuario [miUsuario]="usuario"></app-usuario>
       </article>
     </div>
-    <button *ngIf="page < total_pages" class="btn btn-outline-dark" (click)="nextPage()">Página Siguiente</button><button *ngIf="page > 1" class="btn btn-outline-dark" (click)="previousPage()">Página Anterior</button>
+    <button *ngIf="page < total_pages" class="btn btn-outline-dark" (click)="goStart()" (click)="nextPage()">Página Siguiente</button><button *ngIf="page > 1" class="btn btn-outline-dark" (click)="goStart()" (click)="previousPage()">Página Anterior</button>
   </div>
 </section>
