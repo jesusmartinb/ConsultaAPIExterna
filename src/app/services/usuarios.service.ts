@@ -25,6 +25,8 @@ export class UsuariosService {
   createNewUser(newUser: Usuario): Observable<any> {
     return this.httpClient.post<any>(this.url, newUser);
   }
+
+  updateUser(id: string): Observable<any> {
+    return this.httpClient.put<any>(this.url + '/' + id, id);
+  }
 }
-
-

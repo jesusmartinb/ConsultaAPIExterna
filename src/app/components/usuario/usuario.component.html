@@ -4,7 +4,7 @@
     <h5 class="card-title">{{miUsuario.first_name}} {{miUsuario.last_name}}</h5>
     <div class="d-flex g-1">
       <button [routerLink]="['/user', miUsuario._id]" class="btn btn-outline-dark me-1"><i class="fa-solid fa-magnifying-glass"></i> Detalle</button>
-      <button href="#" class="btn btn-outline-dark me-1"><i class="fa-solid fa-rotate"></i> Actualizar</button>
+      <button [routerLink]="['/updateuser', miUsuario._id]" class="btn btn-outline-dark me-1"><i class="fa-solid fa-rotate"></i> Actualizar</button>
       <button href="#" class="btn btn-outline-dark me-1"><i class="fa-solid fa-trash-can"></i> Borrar</button>
     </div>
   </div>

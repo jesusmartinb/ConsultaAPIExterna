@@ -61,7 +61,8 @@ export class FormularioComponent implements OnInit {
       console.log(nuevoUsuario);
 
       this.usuariosService.createNewUser(nuevoUsuario).subscribe(data => {
-        console.log(data);
+        let dataResponse = data;
+        console.log(dataResponse);
       });
     }
 
