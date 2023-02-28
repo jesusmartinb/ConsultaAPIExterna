@@ -38,6 +38,7 @@
     <label class="form-label" for="repetirpassword">Repetir password (*)</label>
     <input class="form-control" id="repetirpassword" formControlName="repetirpassword" type="password">
     <p class="error" *ngIf="checkControl('repetirpassword', 'required')">El campo es requerido</p>
+    <p class="error" *ngIf="formModel.hasError('checkpassword')">Los campos password no son iguales</p>
   </div>
   <div *ngIf="newUsuario; then guardarNuevoUsuario; else actualizarUsuario"></div>
   <ng-template #guardarNuevoUsuario>

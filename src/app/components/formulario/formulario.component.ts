@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+
+import Swal from 'sweetalert2';
+
+import { ActivatedRoute } from '@angular/router';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { Usuario } from '../../interfaces/usuario.interface';
 
@@ -10,11 +14,18 @@ import { Usuario } from '../../interfaces/usuario.interface';
 })
 export class FormularioComponent implements OnInit {
 
+  id: string = '';
+  usuario: Usuario | any = {};
+
   @Input() newUsuario: boolean | any;
 
   formModel: FormGroup;
 
-  constructor(private usuariosService: UsuariosService) {
+  constructor(
+    private usuariosService: UsuariosService,
+    private activatedRoute: ActivatedRoute
+    ) {
+
     this.formModel = new FormGroup({
       first_name: new FormControl("",[
         Validators.required,
@@ -49,7 +60,44 @@ export class FormularioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    if(!this.newUsuario)  {
+      this.activatedRoute.params.subscribe(params => {
+        console.log(params['iduser']);
+        this.id = params['iduser'];
+        this.usuariosService.updateUser(this.id).subscribe(data => {
+          console.log(data);
+          this.usuario = data;
+            this.formModel = new FormGroup({
+              first_name: new FormControl(this.usuario.first_name,[
+                Validators.required,
+                Validators.minLength(3)
+              ]),
+              last_name: new FormControl(this.usuario.last_name,[
+                Validators.required
+              ]),
+              username: new FormControl(this.usuario.username,[
+                Validators.required,
+                Validators.minLength(3)
+              ]),
+              email: new FormControl(this.usuario.email,[
+                Validators.required
+              ]),
+              image: new FormControl(this.usuario.image,[
+                Validators.required
+              ]),
+              password: new FormControl(this.usuario.password,[
+                Validators.required,
+                Validators.minLength(8)
+              ]),
+              repetirpassword: new FormControl(this.usuario.password,[
+                Validators.required
+              ])
+            },[
+              this.checkPassword
+            ]);
+        })
+      })
+    }
   }
 
   getDataForm() {
@@ -63,7 +111,10 @@ export class FormularioComponent implements OnInit {
       this.usuariosService.createNewUser(nuevoUsuario).subscribe(data => {
         let dataResponse = data;
         console.log(dataResponse);
+        Swal.fire('El Usuario ha sido registrado con el id ' + dataResponse.id);
       });
+
+      this.formModel.reset();
     }
 
   }
