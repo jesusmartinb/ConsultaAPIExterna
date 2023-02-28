@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 
 import Swal from 'sweetalert2';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { Usuario } from '../../interfaces/usuario.interface';
 
@@ -23,7 +23,8 @@ export class FormularioComponent implements OnInit {
 
   constructor(
     private usuariosService: UsuariosService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
     ) {
 
     this.formModel = new FormGroup({
@@ -64,8 +65,8 @@ export class FormularioComponent implements OnInit {
       this.activatedRoute.params.subscribe(params => {
         console.log(params['iduser']);
         this.id = params['iduser'];
-        this.usuariosService.updateUser(this.id).subscribe(data => {
-          console.log(data);
+        this.usuariosService.getUserById(this.id).subscribe(data => {
+          // console.log(data);
           this.usuario = data;
             this.formModel = new FormGroup({
               first_name: new FormControl(this.usuario.first_name,[
@@ -106,17 +107,41 @@ export class FormularioComponent implements OnInit {
 
       let nuevoUsuario: Usuario = this.formModel.value;
 
-      console.log(nuevoUsuario);
+      // console.log(nuevoUsuario);
 
       this.usuariosService.createNewUser(nuevoUsuario).subscribe(data => {
-        let dataResponse = data;
-        console.log(dataResponse);
-        Swal.fire('El Usuario ha sido registrado con el id ' + dataResponse.id);
+        let dataResponseCreate = data;
+        // console.log(dataResponseCreate);
+        Swal.fire('El Usuario ha sido registrado con el id ' + dataResponseCreate.id);
       });
 
       this.formModel.reset();
-    }
+    } else {
+      let usuarioActualizado: Usuario = this.formModel.value;
 
+      // console.log(usuarioActualizado);
+
+      this.activatedRoute.params.subscribe(params => {
+       // console.log(params['iduser']);
+        this.id = params['iduser'];
+        this.usuariosService.updateUser(this.id, usuarioActualizado).subscribe(data => {
+          console.log(data);
+          let dataResponseUpdate = data;
+          //console.log(dataResponseUpdate);
+          Swal.fire(`
+          Se ha actualizado el usuario con la siguiente información:
+          <p>Nombre: ${dataResponseUpdate.first_name}</p>
+          <p>Apellidos: ${dataResponseUpdate.last_name}</p>
+          <p>Apodo: ${dataResponseUpdate.username}</p>
+          <p>Email: ${dataResponseUpdate.email}</p>
+          <p>Url imagen: ${dataResponseUpdate.image}</p>
+          `
+          );
+        })
+      })
+      this.formModel.reset();
+      this.router.navigate(['/home']);
+    }
   }
 
   checkControl(pControlName: string, pError: string): boolean {

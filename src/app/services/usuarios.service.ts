@@ -26,7 +26,7 @@ export class UsuariosService {
     return this.httpClient.post<any>(this.url, newUser);
   }
 
-  updateUser(id: string): Observable<any> {
-    return this.httpClient.put<any>(this.url + '/' + id, id);
+  updateUser(id: string, usuario: Usuario): Observable<any> {
+    return this.httpClient.put<any>(this.url + '/' + id, usuario);
   }
 }
