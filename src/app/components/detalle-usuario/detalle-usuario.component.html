@@ -10,8 +10,8 @@
       <p><span class="fw-bold">Email:</span> {{usuario.email}}</p>
       <div class="btn-group" role="group" aria-label="Basic outlined example">
         <button type="button" class="btn btn-outline-dark">Eliminar</button>
-        <button type="button" class="btn btn-outline-dark">Actualizar</button>
-        <button type="button" class="btn btn-outline-dark">Volver a Listado</button>
+        <button [routerLink]="['/updateuser', usuario._id]" type="button" class="btn btn-outline-dark">Actualizar</button>
+        <button [routerLink]="['/home']" type="button" class="btn btn-outline-dark">Volver a Listado</button>
       </div>
     </div>
   </div>
