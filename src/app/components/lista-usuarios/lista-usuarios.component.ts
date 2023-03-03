@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewportScroller } from '@angular/common'
-// import { Router } from '@angular/router'; Para entorno producción
+// import { Router } from '@angular/router';
 import { Usuario } from 'src/app/interfaces/usuario.interface';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
@@ -15,8 +15,6 @@ export class ListaUsuariosComponent implements OnInit {
 
   page: number = 1;
   total_pages: number = 2;
-  limit: number = 10;
-  offset: number = 0;
 
   loading: boolean;
   paginaProxima: boolean;
@@ -24,7 +22,7 @@ export class ListaUsuariosComponent implements OnInit {
 
   constructor(
     private usuariosService: UsuariosService,
-    // private router: Router, Para entorno producción
+    // private router: Router,
     private scroller: ViewportScroller
     ) {
       this.loading = true;
@@ -36,12 +34,12 @@ export class ListaUsuariosComponent implements OnInit {
 
     setTimeout(() => {
       this.obtenerUsuariosPorPagina();
-    }, 2000)
+    }, 1000)
 
   }
 
   obtenerUsuariosPorPagina() {
-    this.usuariosService.getUsersByPage(this.page, this.total_pages, this.limit, this.offset).subscribe(data => {
+    this.usuariosService.getUsersByPage(this.page, this.total_pages).subscribe(data => {
       this.arrUsuarios = data.results;
       this.loading = false;
       this.paginaPrevia = true;
@@ -56,7 +54,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.paginaPrevia = false;
     setTimeout(() => {
       this.obtenerUsuariosPorPagina();
-    }, 2000)
+    }, 1000)
   }
 
   previousPage() {
@@ -66,14 +64,16 @@ export class ListaUsuariosComponent implements OnInit {
     this.paginaProxima = false;
     setTimeout(() => {
       this.obtenerUsuariosPorPagina();
-    }, 2000)
+    }, 1000)
   }
 
   goStart() {
     // setTimeout(() => {
     //   this.router.navigate([], { fragment: "inicio"}); Valido para entorno de producción
-    // }, 300);
-    this.scroller.scrollToAnchor('inicio');
+    // }, 1300);
+    setTimeout(() => {
+      this.scroller.scrollToAnchor('inicio');
+    }, 1300)
   }
 
 }
