@@ -5,7 +5,7 @@
     <div class="d-flex g-1">
       <button [routerLink]="['/user', miUsuario._id]" class="btn btn-outline-dark me-1"><i class="fa-solid fa-magnifying-glass"></i> Detalle</button>
       <button [routerLink]="['/updateuser', miUsuario._id]" class="btn btn-outline-dark me-1"><i class="fa-solid fa-rotate"></i> Actualizar</button>
-      <button href="#" class="btn btn-outline-dark me-1"><i class="fa-solid fa-trash-can"></i> Borrar</button>
+      <button class="btn btn-outline-dark me-1" (click)="delete(miUsuario._id)"><i class="fa-solid fa-trash-can"></i> Borrar</button>
     </div>
   </div>
 </div>

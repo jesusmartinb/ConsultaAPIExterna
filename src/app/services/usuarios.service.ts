@@ -8,9 +8,7 @@ import { Usuario } from '../interfaces/usuario.interface';
 })
 export class UsuariosService {
 
-  private arrUsuarios: Usuario[] = [];
-
-   private url: string = 'https://peticiones.online/api/users'
+  private url: string = 'https://peticiones.online/api/users'
 
   constructor(private httpClient: HttpClient) { }
 
@@ -28,5 +26,9 @@ export class UsuariosService {
 
   updateUser(id: string, usuario: Usuario): Observable<any> {
     return this.httpClient.put<any>(this.url + '/' + id, usuario);
+  }
+
+  deleteUser(id: string): Observable<any> {
+    return this.httpClient.delete<any>(`${this.url}/${id}`);
   }
 }
