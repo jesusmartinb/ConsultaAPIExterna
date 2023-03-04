@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Usuario } from 'src/app/interfaces/usuario.interface';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import Swal from 'sweetalert2';
@@ -16,7 +16,8 @@ export class DetalleUsuarioComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private router: Router
     ) {
 
   }
@@ -47,23 +48,34 @@ export class DetalleUsuarioComponent implements OnInit {
           next: (response: Usuario) => {
             if(response) {
               console.log(response);
-
+              Swal.fire({
+                title: 'Eliminado!',
+                html: `<p>El siguiente Usuario ha sido borrado:<p>
+                        <p>id: ${response._id}</p>
+                        <p>Nombre: ${response.first_name}</p>
+                        <p>Apellido: ${response.last_name}</p>
+                        <p>Apodo: ${response.username}</p>
+                        <p>Email: ${response.email}</p>
+                        <p>Imagen: ${response.image}</p>
+                        `,
+                icon: 'success'
+              })
             }
           },
           error: (error: any) => {
             console.log(error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'El usuario que intentas borrar no existe'
+            })
           }
         };
 
         if(id) {
           this.usuariosService.deleteUser(id).subscribe(miObservable);
         }
-
-        Swal.fire(
-          'Eliminado!',
-          'El Usuario ha sido borrado.',
-          'success'
-        )
+        this.router.navigate(['/home']);
       }
     });
   }
