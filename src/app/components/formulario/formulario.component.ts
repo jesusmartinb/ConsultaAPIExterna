@@ -126,8 +126,17 @@ export class FormularioComponent implements OnInit {
 
       this.usuariosService.createNewUser(nuevoUsuario).subscribe(data => {
         let dataResponseCreate = data;
-        // console.log(dataResponseCreate);
-        Swal.fire('El Usuario ha sido registrado con el id ' + dataResponseCreate.id);
+        console.log(dataResponseCreate);
+        Swal.fire({
+          title: 'Usuario registrado con el id ' + dataResponseCreate.id,
+          html: `
+          <p>Nombre: ${dataResponseCreate.first_name}</p>
+          <p>Apellido: ${dataResponseCreate.last_name}</p>
+          <p>Apodo: ${dataResponseCreate.username}</p>
+          <p>Email: ${dataResponseCreate.email}</p>
+          <p>Imagen: ${dataResponseCreate.image}</p>
+          `
+        });
       });
 
       this.formModel.reset();
@@ -139,20 +148,36 @@ export class FormularioComponent implements OnInit {
       this.activatedRoute.params.subscribe(params => {
        // console.log(params['iduser']);
         this.id = params['iduser'];
-        this.usuariosService.updateUser(this.id, usuarioActualizado).subscribe(data => {
-          console.log(data);
-          let dataResponseUpdate = data;
-          //console.log(dataResponseUpdate);
-          Swal.fire(`
-          Se ha actualizado el usuario con la siguiente información:
-          <p>Nombre: ${dataResponseUpdate.first_name}</p>
-          <p>Apellidos: ${dataResponseUpdate.last_name}</p>
-          <p>Apodo: ${dataResponseUpdate.username}</p>
-          <p>Email: ${dataResponseUpdate.email}</p>
-          <p>Url imagen: ${dataResponseUpdate.image}</p>
-          `
-          );
-        })
+        const miObservable = {
+          next: (response: Usuario) => {
+            if(response) {
+              const dataResponseUpdate = response;
+              console.log(dataResponseUpdate);
+              Swal.fire({
+                title: `Se ha actualizado el usuario con la siguiente información:`,
+                html: `
+                  <p>Nombre: ${dataResponseUpdate.first_name}</p>
+                  <p>Apellidos: ${dataResponseUpdate.last_name}</p>
+                  <p>Apodo: ${dataResponseUpdate.username}</p>
+                  <p>Email: ${dataResponseUpdate.email}</p>
+                  <p>Url imagen: ${dataResponseUpdate.image}</p>
+                  `,
+                icon: 'success'
+                });
+            }
+          },
+          error: (error: any) => {
+            console.log(error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'El usuario que intentas editar no existe'
+            })
+          }
+        };
+        if(this.id) {
+          this.usuariosService.updateUser(this.id, usuarioActualizado).subscribe(miObservable);
+        }
       })
       this.formModel.reset();
       this.router.navigate(['/home']);
