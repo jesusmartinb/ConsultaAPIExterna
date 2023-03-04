@@ -27,9 +27,25 @@ export class DetalleUsuarioComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       // console.log(params['iduser']);
       this.id = params['iduser'];
-      this.usuariosService.getUserById(this.id).subscribe(data => {
-        this.usuario = data;
-      })
+      const miObservable = {
+        next: (response: Usuario) => {
+          if(response) {
+            this.usuario = response;
+            console.log(response);
+          }
+        },
+        error: (error: any) => {
+          console.log(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El usuario que intentas acceder no existe'
+          })
+        }
+      };
+      if(this.id) {
+        this.usuariosService.getUserById(this.id).subscribe(miObservable);
+      }
     })
   }
 

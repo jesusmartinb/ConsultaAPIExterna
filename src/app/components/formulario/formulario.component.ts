@@ -63,40 +63,55 @@ export class FormularioComponent implements OnInit {
   ngOnInit(): void {
     if(!this.newUsuario)  {
       this.activatedRoute.params.subscribe(params => {
-        console.log(params['iduser']);
+        // console.log(params['iduser']);
         this.id = params['iduser'];
-        this.usuariosService.getUserById(this.id).subscribe(data => {
-          // console.log(data);
-          this.usuario = data;
-            this.formModel = new FormGroup({
-              first_name: new FormControl(this.usuario.first_name,[
-                Validators.required,
-                Validators.minLength(3)
-              ]),
-              last_name: new FormControl(this.usuario.last_name,[
-                Validators.required
-              ]),
-              username: new FormControl(this.usuario.username,[
-                Validators.required,
-                Validators.minLength(3)
-              ]),
-              email: new FormControl(this.usuario.email,[
-                Validators.required
-              ]),
-              image: new FormControl(this.usuario.image,[
-                Validators.required
-              ]),
-              password: new FormControl(this.usuario.password,[
-                Validators.required,
-                Validators.minLength(8)
-              ]),
-              repetirpassword: new FormControl(this.usuario.password,[
-                Validators.required
-              ])
-            },[
-              this.checkPassword
-            ]);
-        })
+        const miObservable = {
+          next: (response: Usuario) => {
+            if(response) {
+              this.usuario = response;
+              console.log(response);
+              this.formModel = new FormGroup({
+                first_name: new FormControl(this.usuario.first_name,[
+                  Validators.required,
+                  Validators.minLength(3)
+                ]),
+                last_name: new FormControl(this.usuario.last_name,[
+                  Validators.required
+                ]),
+                username: new FormControl(this.usuario.username,[
+                  Validators.required,
+                  Validators.minLength(3)
+                ]),
+                email: new FormControl(this.usuario.email,[
+                  Validators.required
+                ]),
+                image: new FormControl(this.usuario.image,[
+                  Validators.required
+                ]),
+                password: new FormControl(this.usuario.password,[
+                  Validators.required,
+                  Validators.minLength(8)
+                ]),
+                repetirpassword: new FormControl(this.usuario.password,[
+                  Validators.required
+                ])
+              },[
+                this.checkPassword
+              ]);
+            }
+          },
+          error: (error: any) => {
+            console.log(error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'El usuario que intentas actualizar no existe'
+            })
+          }
+        };
+        if(this.id) {
+          this.usuariosService.getUserById(this.id).subscribe(miObservable)
+        }
       })
     }
   }
